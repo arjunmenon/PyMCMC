@@ -44,7 +44,10 @@ def mh_test(init_x, trial, inv_dist):
     xs = [span * i + minx for i in range(ndiv)]
     zs = [inv_dist(xs[i]) for i in range(ndiv)]
     plt.plot(xs, zs, 'r-')
+
+    plt.suptitle('%d samples' % trial, size='18')
+    plt.savefig('mh_%d.png' % trial)
     plt.show()
 
 if __name__=='__main__':
-    mh_test(0.0, 100000, inv_dist)
+    mh_test(0.0, 50000, inv_dist)

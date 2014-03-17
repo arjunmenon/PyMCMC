@@ -16,7 +16,7 @@ def inv_dist(x):
 def sa_test(init_x, trial, inv_dist):
     # instantiate M-H object
     burn = int(trial / 10)
-    sa = mcmc.SA(init_x, inv_dist, 1.0, 1.0, 0.99999)
+    sa = mcmc.SA(init_x, inv_dist, 1.0, 1.0, 0.99998)
 
     # instantiate histogram object
     minx = -5.0
@@ -44,7 +44,10 @@ def sa_test(init_x, trial, inv_dist):
     xs = [span * i + minx for i in range(ndiv)]
     zs = [inv_dist(xs[i]) for i in range(ndiv)]
     plt.plot(xs, zs, 'r-')
+
+    plt.suptitle('%d samples' % trial, size='18')
+    plt.savefig('sa_%d.png' % trial)
     plt.show()
 
 if __name__=='__main__':
-    sa_test(0.0, 100000, inv_dist)
+    sa_test(0.0, 1000, inv_dist)

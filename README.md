@@ -1,5 +1,5 @@
 ***
-# Python Markov Chain Monte-Carlo Implementation
+### Python Markov Chain Monte-Carlo Implementation
 ***
 
 1. Overview
@@ -7,8 +7,10 @@
   This project contains implementation of MCMC using python.
   The codes are tested on python 3.3 and some of them needs "matplotlib" to run.
   Currently, the project contains following algorithms.
-  - Metropolis Hastings Method (M-H method)
-  - MCMC with Simulated Annealing
+  - Metropolis Hastings method (M-H method)
+  - MCMC with simulated annealing
+  - Gibbs sampling (for 2D function)
+  - Slice sampling
 
 1. Copyright
 

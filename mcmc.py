@@ -61,3 +61,4 @@ class Hist:
 
     def __getitem__(self, i):
         return self.bins[i]
+

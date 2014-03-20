@@ -7,10 +7,11 @@
   This project contains implementation of MCMC using python.
   The codes are tested on python 3.3 and some of them needs "matplotlib" to run.
   Currently, the project contains following algorithms.
-  - Metropolis Hastings method (M-H method)
-  - MCMC with simulated annealing
-  - Gibbs sampling (for 2D function)
-  - Slice sampling
+  - Metropolis Hastings method (1D and 2D)
+  - MCMC with simulated annealing (1D only)
+  - Gibbs sampling (2D only)
+  - Slice sampling (1D only
+  - Hybrid Monte-Carlo (1D and 2D)
 
 1. Copyright
 

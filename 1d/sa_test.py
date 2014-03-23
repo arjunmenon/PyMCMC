@@ -3,7 +3,7 @@ import random
 import numpy
 import matplotlib.pyplot as plt
 
-import hist
+from mcmc_tester import mcmc_test_1d
 
 # invariant distribution
 def inv_dist(x):
@@ -35,41 +35,7 @@ class SA:
         self.x = candx if r < alph else self.x
         self.T = self.T * self.rho
 
-def sa_test(init_x, trial, inv_dist):
-    # instantiate M-H object
-    burn = int(trial / 10)
-    sa = SA(init_x, inv_dist, 1.0, 1.0, 0.99998)
-
-    # instantiate histogram object
-    minx = -5.0
-    maxx =  5.0
-    nbins = 40
-    histo = hist.Hist(minx, maxx, nbins)
-
-    # burn-in
-    for i in range(burn):
-        sa.update()
-
-    # M-H simulation
-    for i in range(trial):
-        histo.set_value(sa.x)
-        sa.update()
-
-    # show histogram
-    ys = [histo[i] / (trial * histo.span) for i in range(nbins)]
-    xs = [histo.span * i + minx for i in range(nbins)]
-    plt.bar(xs, ys, width = histo.span)
-
-    # show invariant distributin
-    ndiv = 400
-    span = (maxx - minx) / ndiv
-    xs = [span * i + minx for i in range(ndiv)]
-    zs = [inv_dist(xs[i]) for i in range(ndiv)]
-    plt.plot(xs, zs, 'r-')
-
-    plt.suptitle('Simulated annealing: %d samples' % trial, size='18')
-    plt.savefig('sa_%d.png' % trial)
-    plt.show()
-
 if __name__=='__main__':
-    sa_test(0.0, 1000, inv_dist)
+    for t in [1000, 5000, 10000, 50000, 100000]:
+        sa = SA(0.0, inv_dist, 1.0, 1.0, 0.99998)
+        mcmc_test_1d(sa, t, 'sa', 'Simulated annealing')

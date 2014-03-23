@@ -10,7 +10,7 @@
   - Metropolis Hastings method (1D and 2D)
   - MCMC with simulated annealing (1D only)
   - Gibbs sampling (2D only)
-  - Slice sampling (1D only
+  - Slice sampling (1D only)
   - Hybrid Monte-Carlo (1D and 2D)
 
 1. Copyright

@@ -1,10 +1,9 @@
 import math
 import random
-import mcmc
-import matplotlib.pyplot as plt
+from mcmc_tester import mcmc_test_1d
 
 # invariant distribution
-def inv_dist(x):
+def inv_dist_1d(x):
     r = 0.3
     mu1 = 1.0
     mu2 = -2.0
@@ -42,41 +41,7 @@ class Slice:
                     maxx = candx
         self.x = candx
 
-def slice_test(init_x, trial, inv_dist, w):
-    slc = Slice(init_x, inv_dist, w)
-    burn = int(trial / 10)
-
-    # instantiate histogram object
-    minx = -5.0
-    maxx =  5.0
-    nbins = 40
-    hist = mcmc.Hist(minx, maxx, nbins)
-
-    # burn-in
-    for i in range(burn):
-        slc.update()
-
-    # M-H simulation
-    for i in range(trial):
-        hist.set_value(slc.x)
-        slc.update()
-
-    # show histogram
-    ys = [hist[i] / (trial * hist.span) for i in range(nbins)]
-    xs = [hist.span * i + minx for i in range(nbins)]
-    plt.bar(xs, ys, width = hist.span)
-
-    # show invariant distributin
-    ndiv = 400
-    span = (maxx - minx) / ndiv
-    xs = [span * i + minx for i in range(ndiv)]
-    zs = [inv_dist(xs[i]) for i in range(ndiv)]
-    plt.plot(xs, zs, 'r-')
-
-    plt.suptitle('Slice sampling: %d samples' % trial, size='18')
-    plt.savefig('slice_%d.png' % trial)
-    plt.show()
-
 if __name__=='__main__':
     for t in [1000, 5000, 10000, 50000, 100000]:
-        slice_test(0.0, t, inv_dist, 0.5)
+        slc = Slice(0.0, inv_dist_1d, 0.5)
+        mcmc_test_1d(slc, t, 'slice', 'Slice sampling')

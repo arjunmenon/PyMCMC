@@ -3,10 +3,10 @@ import random
 import numpy
 import matplotlib.pyplot as plt
 
-import hist
+from mcmc_tester import mcmc_test_1d
 
 # invariant distribution
-def inv_dist(x):
+def inv_dist_1d(x):
     r = 0.3
     mu1 = 1.0
     mu2 = -2.0
@@ -32,42 +32,8 @@ class MH:
         r = random.random()
         self.x = candx if r < alph else self.x
 
-def mh_test(init_x, trial, inv_dist):
-    # instantiate M-H object
-    burn = int(trial / 10)
-    mh = MH(init_x, inv_dist, 1.0)
-
-    # instantiate histogram object
-    minx = -5.0
-    maxx =  5.0
-    nbins = 40
-    histo = hist.Hist(minx, maxx, nbins)
-
-    # burn-in
-    for i in range(burn):
-        mh.update()
-
-    # M-H simulation
-    for i in range(trial):
-        histo.set_value(mh.x)
-        mh.update()
-
-    # show histogram
-    ys = [histo[i] / (trial * histo.span) for i in range(nbins)]
-    xs = [histo.span * i + minx for i in range(nbins)]
-    plt.bar(xs, ys, width = histo.span)
-
-    # show invariant distributin
-    ndiv = 400
-    span = (maxx - minx) / ndiv
-    xs = [span * i + minx for i in range(ndiv)]
-    zs = [inv_dist(xs[i]) for i in range(ndiv)]
-    plt.plot(xs, zs, 'r-')
-
-    plt.suptitle('M-H method: %d samples' % trial, size='18')
-    plt.savefig('mh_%d.png' % trial)
-    plt.show()
-
 if __name__=='__main__':
+    sigma = 1.0
     for t in [1000, 5000, 10000, 50000, 100000]:
-        mh_test(0.0, t, inv_dist)
+        mh = MH(0.0, inv_dist_1d, sigma)
+        mcmc_test_1d(mh, t, 'mh', 'M-H method')
